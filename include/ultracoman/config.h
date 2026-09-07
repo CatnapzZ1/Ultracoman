@@ -9,5 +9,5 @@ typedef struct {
 typedef struct {
   SerialOptions serial;
   unsigned char quit_key;
-} Appconfig;
+} AppConfig;
 #endif // !ULTRACOMAN_CONFIG_H
