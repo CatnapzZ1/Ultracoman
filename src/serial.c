@@ -55,7 +55,7 @@ int serial_open(const SerialOptions *options) {
   }
 
   if (cfsetispeed(&tty, speed) < 0) {
-    error;
+    goto error;
   }
 
   if (cfsetospeed(&tty, speed) < 0) {
