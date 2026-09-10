@@ -72,7 +72,7 @@ int event_loop_run(int serial_fd, unsigned char quit_key) {
         return 0;
       }
 
-      if (io_write_all(STDOUt_FILENO, buf, (size_t)n) < 0) {
+      if (io_write_all(STDOUT_FILENO, buf, (size_t)n) < 0) {
         return -1;
       }
     }

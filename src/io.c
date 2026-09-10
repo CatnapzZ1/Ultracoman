@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int io_write_all(int fd, const void *date, size_t len) {
-  const unsigned char *p = data;
+  const unsigned char *p = date;
 
   while (len > 0) {
     ssize_t n = write(fd, p, len);

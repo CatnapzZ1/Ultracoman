@@ -7,11 +7,11 @@ static struct termios saved_terminal;
 static int raw_mode_enabled = 0;
 
 int terminal_enter_raw(void) {
-  if(!isatty(STDIN_FILENO){
+  if (!isatty(STDIN_FILENO)) {
     return 0;
   }
 
-  if(tcgetattr(STDIN_FILENO, &saved_terminal) < 0){
+  if (tcgetattr(STDIN_FILENO, &saved_terminal) < 0) {
     return -1;
   }
 
@@ -19,7 +19,7 @@ int terminal_enter_raw(void) {
 
   cfmakeraw(&raw);
 
-  if(tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0){
+  if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0) {
     return -1;
   }
 
@@ -28,7 +28,7 @@ int terminal_enter_raw(void) {
   return 0;
 }
 
-void terminal_restre(void) {
+void terminal_restore(void) {
   if (!raw_mode_enabled) {
     return;
   }
