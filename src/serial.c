@@ -34,7 +34,8 @@ static int baud_to_speed(int baud, speed_t *speed) {
 }
 
 int serial_open(const SerialOptions *options) {
-  int fd = open(options->device, O_RDWR | O_NOCTTY);
+  /* Avoid waiting for carrier detect before we can enable CLOCAL. */
+  int fd = open(options->device, O_RDWR | O_NOCTTY | O_NONBLOCK);
 
   if (fd < 0) {
     return -1;
@@ -80,6 +81,12 @@ int serial_open(const SerialOptions *options) {
   tty.c_cc[VTIME] = 0;
 
   if (tcsetattr(fd, TCSANOW, &tty) < 0) {
+    goto error;
+  }
+
+  /* Keep the existing read/write loop in blocking mode. */
+  int flags = fcntl(fd, F_GETFL);
+  if (flags < 0 || fcntl(fd, F_SETFL, flags & ~O_NONBLOCK) < 0) {
     goto error;
   }
 

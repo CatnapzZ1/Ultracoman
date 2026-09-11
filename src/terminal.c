@@ -1,5 +1,6 @@
 #include "ultracoman/terminal.h"
 
+#include <errno.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -8,7 +9,8 @@ static int raw_mode_enabled = 0;
 
 int terminal_enter_raw(void) {
   if (!isatty(STDIN_FILENO)) {
-    return 0;
+    errno = ENOTTY;
+    return -1;
   }
 
   if (tcgetattr(STDIN_FILENO, &saved_terminal) < 0) {
